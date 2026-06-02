@@ -1,6 +1,6 @@
-content = """# ESP32-S3 Room Environment Monitor
+ESP32-S3 Room Environment Monitor
 
-A simple, asynchronous web server built with an ESP32-S3 to monitor temperature and humidity using a DHT11 sensor. (Originally configured to monitor Caleb's room in Prague!).
+A simple, asynchronous web server built with an ESP32-S3 to monitor temperature and humidity using a DHT11 sensor. (Originally configured to monitor my room in Prague!).
 
 ## Features
 * **Live Updates:** The web interface automatically fetches new data in the background every 3 seconds without refreshing the page.
