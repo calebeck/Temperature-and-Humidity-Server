@@ -29,7 +29,7 @@ const char index_html[] PROGMEM = R"rawliteral(
   </style>
 </head>
 <body>
-  <h1>Environment of Caleb's Room in Prague</h1>
+  <h1>Current Environment</h1>
   <div class="card">
     <div class="label">Temperature</div>
     <div class="value"><span id="temp">--</span> &deg;C</div>
