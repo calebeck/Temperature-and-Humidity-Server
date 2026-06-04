@@ -30,7 +30,7 @@ A flexible environmental monitoring system built with an ESP32-S3 to track tempe
 ## Setup & Installation
 
 ### Option 1: Wi-Fi Method (Local Web Server)
-1. Open `temp_humid_server.ino` in the Arduino IDE
+1. Open `temp_humid_server_WiFi.ino` in the Arduino IDE
 2. Update the Wi-Fi credentials at the top of the sketch:
    ```cpp
    const char* ssid = "Your WiFi ssid";
@@ -51,7 +51,7 @@ A flexible environmental monitoring system built with an ESP32-S3 to track tempe
 ## Communication Methods
 
 ### Wi-Fi (Local Web Server)
-- **File:** `temp_humid_server.ino`
+- **File:** `temp_humid_server_WiFi.ino`
 - **UI:** `index.html` (embedded in the sketch)
 - **Access:** Local network only via IP address
 - **Update Rate:** 3 seconds
