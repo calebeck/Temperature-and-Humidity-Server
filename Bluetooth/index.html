@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BLE Room Monitor</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; background: #f4f4f9;}
+    .card { background: white; padding: 20px; border-radius: 10px; display: inline-block; margin: 10px; width: 200px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    button { padding: 15px 30px; font-size: 18px; cursor: pointer; background: #0056b3; color: white; border: none; border-radius: 5px; margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+
+  <h1>BLE Room Monitor</h1>
+  <button id="connectBtn">Connect to ESP32</button>
+  <br>
+
+  <div class="card">
+    <h3>Temperature (C)</h3>
+    <h2><span id="tempValue">--</span> &deg;C</h2>
+  </div>
+  
+  <div class="card">
+    <h3>Humidity</h3>
+    <h2><span id="humidValue">--</span> %</h2>
+  </div>
+
+  <div class="card">
+    <h3>Temperature (F)</h3>
+    <h2><span id="tempFValue">--</span> &deg;F</h2>
+  </div>
+
+  <script>
+    // These must exactly match the UUIDs in your Arduino code
+    const serviceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
+    const tempUuid    = "19b10001-e8f2-537e-4f6c-d104768a1214";
+    const humidUuid   = "19b10002-e8f2-537e-4f6c-d104768a1214";
+    const tempFUuid   = "19b10003-e8f2-537e-4f6c-d104768a1214"; // New Fahrenheit UUID
+
+    document.getElementById('connectBtn').addEventListener('click', async () => {
+      try {
+        console.log('Requesting Bluetooth Device...');
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ name: 'ESP32-S3-Room-BLE' }],
+          optionalServices: [serviceUuid]
+        });
+
+        console.log('Connecting to GATT Server...');
+        const server = await device.gatt.connect();
+
+        console.log('Getting Service...');
+        const service = await server.getPrimaryService(serviceUuid);
+
+        console.log('Getting Characteristics...');
+        const tempChar  = await service.getCharacteristic(tempUuid);
+        const humidChar = await service.getCharacteristic(humidUuid);
+        const tempFChar = await service.getCharacteristic(tempFUuid);
+
+        // Start listening for notifications
+        await tempChar.startNotifications();
+        await humidChar.startNotifications();
+        await tempFChar.startNotifications();
+
+        // When the ESP32 sends new data, decode the text and update the HTML
+        tempChar.addEventListener('characteristicvaluechanged', (e) => {
+          let value = new TextDecoder().decode(e.target.value);
+          document.getElementById('tempValue').innerText = value;
+        });
+
+        humidChar.addEventListener('characteristicvaluechanged', (e) => {
+          let value = new TextDecoder().decode(e.target.value);
+          document.getElementById('humidValue').innerText = value;
+        });
+
+        tempFChar.addEventListener('characteristicvaluechanged', (e) => {
+          let value = new TextDecoder().decode(e.target.value);
+          document.getElementById('tempFValue').innerText = value;
+        });
+
+        console.log('Notifications started!');
+      } catch (error) {
+        console.log('Connection failed: ' + error);
+      }
+    });
+  </script>
+</body>
+</html>
