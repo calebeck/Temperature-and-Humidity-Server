@@ -46,7 +46,6 @@ A flexible environmental monitoring system built with an ESP32-S3 to track tempe
 3. Access the remote dashboard at: **https://brilliant-mochi-19de18.netlify.app/**
 4. Click the "Connect to ESP32" button on the dashboard
 5. Select your ESP32-S3-Room-BLE device from the Bluetooth pairing dialog
-6. View live temperature and humidity data streamed directly from your device
 
 ## Communication Methods
 
@@ -55,14 +54,12 @@ A flexible environmental monitoring system built with an ESP32-S3 to track tempe
 - **UI:** `index.html` (embedded in the sketch)
 - **Access:** Local network only via IP address
 - **Update Rate:** 3 seconds
-- **Advantages:** Direct control, no internet required, faster response
 
 ### Bluetooth Low Energy (BLE)
 - **File:** `temp_humid_server_Bluetooth.ino`
 - **UI:** `index.html` (standalone, hosted on Netlify)
 - **Access:** Remote dashboard at https://brilliant-mochi-19de18.netlify.app/
 - **Update Rate:** 3 seconds
-- **Advantages:** Wireless range up to 100m, no Wi-Fi needed, remote access
 
 ## Project Structure
 ```
